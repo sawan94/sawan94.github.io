@@ -11,6 +11,30 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
+	<style>
+		.loader {
+		  border: 16px solid #f3f3f3;
+		  border-radius: 50%;
+		  margin-left: 48%;
+		  margin-top: 28%;
+		  border-top: 16px solid #3498db;
+		  width: 120px;
+		  height: 120px;
+		  -webkit-animation: spin 2s linear infinite; /* Safari */
+		  animation: spin 2s linear infinite;
+		}
+		
+		/* Safari */
+		@-webkit-keyframes spin {
+		  0% { -webkit-transform: rotate(0deg); }
+		  100% { -webkit-transform: rotate(360deg); }
+		}
+		
+		@keyframes spin {
+		  0% { transform: rotate(0deg); }
+		  100% { transform: rotate(360deg); }
+		}
+		</style>
 </head>
 
 <body class="is-preload">
@@ -37,6 +61,7 @@
 		<!-- Two -->
 		<section id="two">
 			<h2>Results</h2>
+			<div class="loader" style="display: none;" ></div>
 			<div class="row results">
 			</div>
 		</section>
@@ -72,7 +97,8 @@
 						url = 'https://sawanmehta.tech/';
 
 					files.append('fileName', this.files[0]); // append selected file to the bag named 'file'
-
+					$(".results").empty();
+					$(".loader").show();
 					$.ajax({
 						type: 'post',
 						url: url,
@@ -80,8 +106,7 @@
 						contentType: false,
 						data: files,
 						success: function (response) {
-							$(".results").empty();
-
+							$(".loader").hide();
 							$(response.split("|")).each(function (k, v) {
 								$(".results").append(
 									'<article class="col-6 col-12-xsmall work-item"><img src="assets/'+v+'" alt="" /></article>'
